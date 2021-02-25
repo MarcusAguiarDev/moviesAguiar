@@ -1,9 +1,8 @@
 package com.example.aguiarmovies.activities
 
-import OMDbServiceOMDbServiceInterface
+import OMDbServiceInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.example.aguiarmovies.R
 import com.example.aguiarmovies.adapters.OMDbService
 import com.example.aguiarmovies.models.Movie
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getMovies(name: String){
-        val omdbService: OMDbServiceOMDbServiceInterface = OMDbService().getService()
+        val omdbService: OMDbServiceInterface = OMDbService().getService()
 
         omdbService.listRepos("43961fbe").enqueue(object : Callback<MoviesResponse> {
             override fun onResponse(call: Call<MoviesResponse>, response: Response<MoviesResponse>) {
