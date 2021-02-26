@@ -5,6 +5,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface OMDbServiceInterface {
-    @GET("?s=spider&page=2")
-    fun listRepos(@Query("apiKey") apiKey: String?): Call<MoviesResponse>
+    @GET("?")
+    fun listMovies(@Query("apiKey") apiKey: String?, @Query("s") title: String?): Call<MoviesResponse>
 }
