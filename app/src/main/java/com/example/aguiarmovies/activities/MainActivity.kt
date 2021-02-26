@@ -3,20 +3,29 @@ package com.example.aguiarmovies.activities
 import OMDbServiceInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import com.example.aguiarmovies.R
 import com.example.aguiarmovies.adapters.OMDbService
 import com.example.aguiarmovies.models.Movie
 import com.example.aguiarmovies.models.MoviesResponse
-import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var btSearch: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //UI binding
+        this.btSearch = findViewById(R.id.btSearch)
+
         setListeners()
+
+
     }
 
     fun setListeners(){

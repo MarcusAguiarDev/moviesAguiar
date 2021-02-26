@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Aguiar Movies</string>
+    <string name="procurar">Procurar</string>
+    <string name="nome_do_filme">nome do filme...</string>
 </resources>
