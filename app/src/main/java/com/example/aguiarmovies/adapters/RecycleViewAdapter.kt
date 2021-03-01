@@ -1,5 +1,6 @@
 package com.example.aguiarmovies.adapters
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.aguiarmovies.R
+import com.example.aguiarmovies.activities.MovieDetail
 import com.example.aguiarmovies.models.Movie
 
 class RecycleViewAdapter(private val dataSet: List<Movie>) :
@@ -20,16 +22,17 @@ class RecycleViewAdapter(private val dataSet: List<Movie>) :
      * (custom ViewHolder).
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        var imdbID: String? = null
         val movieTitle: TextView
         val movieYear: TextView
         val movieImage: ImageView
 
         init {
-            // Define click listener for the ViewHolder's View.
+            // view binding
             movieTitle = view.findViewById(R.id.movieTitle)
             movieYear = view.findViewById(R.id.movieYear)
             movieImage = view.findViewById(R.id.movieImage)
-
         }
     }
 
@@ -47,6 +50,7 @@ class RecycleViewAdapter(private val dataSet: List<Movie>) :
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
+        viewHolder.imdbID = dataSet[position].imdbID
         viewHolder.movieTitle.text = dataSet[position].title
         viewHolder.movieYear.text = dataSet[position].year
 
@@ -55,6 +59,14 @@ class RecycleViewAdapter(private val dataSet: List<Movie>) :
             Glide.with(viewHolder.itemView).load(dataSet[position].poster).into(viewHolder.movieImage)
         else
             viewHolder.movieImage.setImageResource(R.drawable.default_image)
+
+        viewHolder.itemView.setOnClickListener {
+            //viewHolder.imdbID
+            val intent = Intent(viewHolder.itemView.context, MovieDetail::class.java).apply {
+                putExtra("imdbID", viewHolder.imdbID)
+            }
+            viewHolder.itemView.context.startActivity(intent)
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

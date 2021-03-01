@@ -3,7 +3,6 @@ package com.example.aguiarmovies.activities
 import OMDbServiceInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Button
@@ -17,9 +16,6 @@ import com.example.aguiarmovies.models.MoviesResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
-
-private const val API_KEY = "43961fbe"
 
 class MainActivity : AppCompatActivity() {
 
@@ -55,8 +51,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setMoviesList(moviesList: List<Movie>) {
-        println(moviesList)
-        //adapter test
+        //set adapter
         rvList.adapter = RecycleViewAdapter(moviesList)
     }
 
@@ -64,11 +59,10 @@ class MainActivity : AppCompatActivity() {
 
         val omdbService: OMDbServiceInterface = OMDbService().getService()
 
-        omdbService.listMovies(API_KEY, name).enqueue(object : Callback<MoviesResponse> {
+        omdbService.listMovies(name).enqueue(object : Callback<MoviesResponse> {
             override fun onResponse(call: Call<MoviesResponse>, response: Response<MoviesResponse>) {
 
                 var moviesResponse: MoviesResponse = response.body()!!
-                Log.w("movie", moviesResponse.toString())
 
                 moviesResponse?.search?.let {
                     setMoviesList(moviesResponse.search)

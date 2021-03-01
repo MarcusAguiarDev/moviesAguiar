@@ -7,7 +7,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class OMDbService {
 
-    val baseUrl:String = "http://www.omdbapi.com/"
+    private val baseUrl:String = "http://www.omdbapi.com/"
+    private val API_KEY = "43961fbe"
 
     fun getService(): OMDbServiceInterface {
         val retrofit = Retrofit.Builder()
