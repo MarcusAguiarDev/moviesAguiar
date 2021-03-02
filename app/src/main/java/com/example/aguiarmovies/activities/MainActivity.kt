@@ -1,15 +1,18 @@
 package com.example.aguiarmovies.activities
 
 import OMDbServiceInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aguiarmovies.R
-import com.example.aguiarmovies.adapters.OMDbService
+import com.example.aguiarmovies.adapters.Listeners
+import com.example.aguiarmovies.services.OMDbService
 import com.example.aguiarmovies.adapters.RecycleViewAdapter
 import com.example.aguiarmovies.models.Movie
 import com.example.aguiarmovies.models.MoviesResponse
@@ -36,41 +39,50 @@ class MainActivity : AppCompatActivity() {
         setListeners()
     }
 
-    fun setListeners() {
+    private fun setListeners() {
         btSearch.setOnClickListener {
             getMovies(editName.text.toString())
         }
 
         //on "ENTER" getMovies
-        editName.setOnKeyListener(View.OnKeyListener{ v, keyCode, event ->
+        editName.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 getMovies(editName.text.toString())
             }
             false
+        }
+    }
+
+    private fun setMoviesList(moviesList: List<Movie>) {
+        //set adapter
+        rvList.adapter = RecycleViewAdapter(moviesList, object : Listeners {
+            override fun onClickListener(imdbID: String?){
+                val intent = Intent(this@MainActivity, MovieDetail::class.java).apply {
+                    val extraImdbID = "imdbID"
+                    putExtra(extraImdbID, imdbID)
+                }
+                startActivity(intent)
+            }
         })
     }
 
-    fun setMoviesList(moviesList: List<Movie>) {
-        //set adapter
-        rvList.adapter = RecycleViewAdapter(moviesList)
-    }
-
-    fun getMovies(name: String) {
+    private fun getMovies(name: String) {
 
         val omdbService: OMDbServiceInterface = OMDbService().getService()
 
         omdbService.listMovies(name).enqueue(object : Callback<MoviesResponse> {
-            override fun onResponse(call: Call<MoviesResponse>, response: Response<MoviesResponse>) {
+            override fun onResponse(
+                call: Call<MoviesResponse>,
+                response: Response<MoviesResponse>
+            ) {
 
-                var moviesResponse: MoviesResponse = response.body()!!
+                var moviesResponse: MoviesResponse? = response.body()
 
-                moviesResponse?.search?.let {
-                    setMoviesList(moviesResponse.search)
-                }
+                moviesResponse?.search?.let { setMoviesList(moviesResponse.search) }
             }
 
             override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
-                throw t
+                Log.e("catched_error", t.message.toString())
             }
         })
     }

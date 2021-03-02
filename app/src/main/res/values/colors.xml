@@ -8,4 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#FFC107</color>
+
+    <color name="primary">#673AB7</color>
+    <color name="primary_variant">#9165DF</color>
+    <color name="secondary">#FFC107</color>
+    <color name="secondary_variant">#FFDA6D</color>
 </resources>

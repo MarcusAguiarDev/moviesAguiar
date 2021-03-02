@@ -1,18 +1,17 @@
-package com.example.aguiarmovies.adapters
+package com.example.aguiarmovies.services
 
 import OMDbServiceInterface
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class OMDbService {
+const val BASE_URL = "http://www.omdbapi.com/"
 
-    private val baseUrl:String = "http://www.omdbapi.com/"
-    private val API_KEY = "43961fbe"
+class OMDbService {
 
     fun getService(): OMDbServiceInterface {
         val retrofit = Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         return retrofit.create(OMDbServiceInterface::class.java)

@@ -14,14 +14,19 @@ import com.example.aguiarmovies.R
 import com.example.aguiarmovies.activities.MovieDetail
 import com.example.aguiarmovies.models.Movie
 
-class RecycleViewAdapter(private val dataSet: List<Movie>) :
+const val NA = "N/A"
+
+class RecycleViewAdapter(
+    private val dataSet: List<Movie>,
+    private val listeners: Listeners
+    ) :
     RecyclerView.Adapter<RecycleViewAdapter.ViewHolder>() {
 
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var imdbID: String? = null
         val movieTitle: TextView
@@ -33,6 +38,26 @@ class RecycleViewAdapter(private val dataSet: List<Movie>) :
             movieTitle = view.findViewById(R.id.movieTitle)
             movieYear = view.findViewById(R.id.movieYear)
             movieImage = view.findViewById(R.id.movieImage)
+        }
+
+        fun onBind(movie: Movie) {
+            // Get element from your dataset at this position and replace the
+            // contents of the view with that element
+            imdbID = movie.imdbID
+            movieTitle.text = movie.title
+            movieYear.text = movie.year
+
+            //Get image from URL or set a default image
+            if (movie.poster != NA)
+                Glide.with(itemView).load(movie.poster)
+                    .into(movieImage)
+            else
+                movieImage.setImageResource(R.drawable.no_image_available)
+
+            //set parent received click listener
+            itemView.setOnClickListener {
+                listeners.onClickListener(imdbID)
+            }
         }
     }
 
@@ -47,29 +72,13 @@ class RecycleViewAdapter(private val dataSet: List<Movie>) :
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        viewHolder.imdbID = dataSet[position].imdbID
-        viewHolder.movieTitle.text = dataSet[position].title
-        viewHolder.movieYear.text = dataSet[position].year
-
-        //Get image from URL or set a default image
-        if(dataSet[position].poster != "N/A")
-            Glide.with(viewHolder.itemView).load(dataSet[position].poster).into(viewHolder.movieImage)
-        else
-            viewHolder.movieImage.setImageResource(R.drawable.default_image)
-
-        viewHolder.itemView.setOnClickListener {
-            //viewHolder.imdbID
-            val intent = Intent(viewHolder.itemView.context, MovieDetail::class.java).apply {
-                putExtra("imdbID", viewHolder.imdbID)
-            }
-            viewHolder.itemView.context.startActivity(intent)
-        }
+        viewHolder.onBind(dataSet[position])
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
+}
 
+interface Listeners{
+    fun onClickListener (imdbID: String?)
 }

@@ -2,4 +2,17 @@
     <string name="app_name">Aguiar Movies</string>
     <string name="procurar">Procurar</string>
     <string name="nome_do_filme">nome do filme...</string>
+    <string name="genre">Gênero: %s</string>
+    <string name="released">Data de lançamento: %s</string>
+    <string name="runtime">Duração: %s</string>
+    <string name="director">Diretor: %s</string>
+    <string name="writer">Escritor: %s</string>
+    <string name="actors">Elenco: %s</string>
+    <string name="plot">Sinopse: %s</string>
+    <string name="language">Idioma: %s</string>
+    <string name="country">País: %s</string>
+    <string name="awards">Prêmios: %s</string>
+    <string name="rating">Avaliação: %s</string>
+    <string name="votes">"Quantidade de votos: %s</string>
+
 </resources>
