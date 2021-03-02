@@ -1,5 +1,16 @@
-### :movie_camera: Movies Aguiar 
+# :movie_camera:Movies Aguiar	
 
 
 
-Um aplicativo Android construido com Kotlin para buscar filmes na api [OMDb API](http://http://www.omdbapi.com/).
+## Resumo:
+
+Um aplicativo Android construido com Kotlin para buscar filmes na api [OMDb API](http://www.omdbapi.com/).
+
+
+
+## Recursos abordados:
+
+- Recycle View
+- [Retrofit](https://square.github.io/retrofit/)
+- Intents
+
